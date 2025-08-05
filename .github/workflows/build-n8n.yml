@@ -24,18 +24,21 @@ jobs:
           corepack enable
           corepack prepare pnpm@latest --activate
 
-      - name: Install dependencies with pnpm
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Build n8n
+      - name: Build CLI
         run: pnpm run build
+        working-directory: packages/cli
 
-      - name: Upload build to build-output branch
+      - name: Upload dist folder to build-output branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./packages/cli/dist
           publish_branch: build-output
+          force_orphan: true
+
           force_orphan: true
 
 # trigger build
